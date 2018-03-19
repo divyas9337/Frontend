@@ -9,6 +9,7 @@ public class AdminController {
 	@GetMapping("/managecategories")
 	public ModelAndView adminClickedCategories()
 	{
+		
 		ModelAndView mv=new ModelAndView("home");
 		mv.addObject("is")
 		
