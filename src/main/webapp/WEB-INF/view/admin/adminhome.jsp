@@ -13,14 +13,13 @@
 <a href="manageproducts">Manage products</a></h2>
 <br>
 <c:if test="${isAdminClickedMangageCategories==true}">
-<jsp:include
-</c:if>
-
-
-
 <jsp:include page="category.jsp"></jsp:include>
-<jsp:include page="product.jsp"></jsp:include>
+</c:if>
+<c:if test="${isAdminClickedMangageSuppliers==true}">
 <jsp:include page="supplier.jsp"></jsp:include>
-
+</c:if>
+<c:if test="${isAdminClickedMangageProducts==true}">
+<jsp:include page="product.jsp"></jsp:include>
+</c:if>
 </body>
 </html>

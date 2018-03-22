@@ -1,5 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
-	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -10,18 +11,19 @@
 	<center>
 		<h2>Welcome to shopping cart</h2>
 	</center>
-	${name}
-	${error}
+	${name} ${error}
 	<br>
 	<a href="login"> Existing user</a>
 	<a href="register"> New User</a>
 	<hr color="blue" size="5">
-	
+
 	<jsp:include page="product_menu.jsp"></jsp:include>
-	
-	<jsp:include page="admin/adminhome.jsp"></jsp:include>
-	
-	
+	<c:if test="${isAdmin==true}">
+		<jsp:include page="admin/adminhome.jsp"></jsp:include>
+	</c:if>
+	${welcomeMessage}
+	${errorMessage}
+	${successMessage}
 
 	<c:if test="${isUserClickedLogin==true}">
 		<jsp:include page="login.jsp"></jsp:include>

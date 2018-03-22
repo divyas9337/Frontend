@@ -24,7 +24,7 @@ public class UserController {
   //it should return name ----valid credentials
   //it should return error message----invalid credentials
  
-	@PostMapping("validate")
+	@PostMapping("/validate")
 	public ModelAndView validate(@RequestParam("uname")String name,@RequestParam("psw")String password)
 	{
 		ModelAndView mv=new ModelAndView("home");
@@ -37,7 +37,7 @@ public class UserController {
 		else
 		{
 			//valid credentials.
-			mv.addObject("welcome message", "welcome "+user.getName());
+			mv.addObject("welcomMessage", "welcome "+user.getName());
 			if(user.getRole()=='A')
 			{
 				mv.addObject("isAdmin",true);

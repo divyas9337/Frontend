@@ -11,8 +11,25 @@ public class AdminController {
 	{
 		
 		ModelAndView mv=new ModelAndView("home");
-		mv.addObject("is")
-		
+		mv.addObject("isAdminClickedManageCategories",true);
+		return mv;
 	}
+	@GetMapping("/managesupplier")
+	public ModelAndView adminClickedsuppliers()
+	{
+		
+		ModelAndView mv=new ModelAndView("home");
+		mv.addObject("isAdminClickedManageSuppliers",true);
+		return mv;
+	}
+	@GetMapping("/manageproduct")
+	public ModelAndView adminClickedproducts()
+	{
+		
+		ModelAndView mv=new ModelAndView("home");
+		mv.addObject("isAdminClickedManageProducts",true);
+		return mv;
+	}
+
 
 }
