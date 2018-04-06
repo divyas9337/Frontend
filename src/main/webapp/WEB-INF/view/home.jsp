@@ -14,7 +14,7 @@
 	${name} ${error}
 	<br>
 	<a href="login"> Existing user</a>
-	<a href="register"> New User</a>
+	<a href="registration"> New User</a>
 	<hr color="blue" size="5">
 
 	<jsp:include page="product_menu.jsp"></jsp:include>

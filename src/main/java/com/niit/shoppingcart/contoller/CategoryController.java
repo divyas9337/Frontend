@@ -1,9 +1,11 @@
 package com.niit.shoppingcart.contoller;
 
 import java.util.List;
+
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,6 +19,8 @@ import org.springframework.web.servlet.ModelAndView;
 import com.niit.shoppingcart.dao.CategoryDAO;
 import com.niit.shoppingcart.domain.Category;
 
+
+
 @Controller
 public class CategoryController {
 
@@ -29,23 +33,25 @@ public class CategoryController {
 
 	@Autowired
 	private Category category;
+	@Autowired
+	HttpSession httpSession;
 
 	// http://localhost:8080/shoppingcart/category/get/cate_001
 	// @GetMapping("/category/get/{id}")
-	@RequestMapping(name = "/category/get/{id}", method = RequestMethod.GET)
+	@RequestMapping(name = "/category/get/{id}",method = RequestMethod.GET)
 	public ModelAndView getCategory(@RequestParam("id") String id) {
 		
 		// based on id, fetch the details from categoryDAO
 		category = categoryDAO.get(id);
 
 		// navigate to home page
-		ModelAndView mv = new ModelAndView("home");
+		ModelAndView mv = new ModelAndView("redirect:/managecategories");
 		mv.addObject("category", category);
 		return mv;
 
 	}
 
-	@GetMapping("/category/save/")
+	@PostMapping("/category/save/")
 	/*
 	 * public ModelAndView saveCategory(@RequestParam("id") String id,
 	 * 
@@ -53,10 +59,15 @@ public class CategoryController {
 	 * 
 	 * @RequestParam("id") String description)
 	 */
-	public ModelAndView saveCategory(@RequestBody Category category) {
+	public ModelAndView saveCategory(@RequestParam("id") String id,
+			@RequestParam("name") String name,
+			@RequestParam("description") String description){
 		// navigate to home page
 		
-		ModelAndView mv = new ModelAndView("home");
+		ModelAndView mv = new ModelAndView("redirect:/managecategories");
+		category.setId(id);
+		category.setName(name);
+		category.setDescription(description);
 
 		// call save method of categoryDAO
 		if (categoryDAO.save(category) == true) {
@@ -74,7 +85,7 @@ public class CategoryController {
 	@PutMapping("/category/update/")
 	public ModelAndView updateCategory(@ModelAttribute Category category) {
 		// navigate to home page
-		ModelAndView mv = new ModelAndView("home");
+		ModelAndView mv = new ModelAndView("redirect:/managecategories");
 
 		// call save method of categoryDAO
 		if (categoryDAO.update(category) == true) {
@@ -89,10 +100,11 @@ public class CategoryController {
 
 	}
 
-	@DeleteMapping("/category/delete/{id}")
-	public ModelAndView deleteCategory(@RequestParam("id") String id) {
+	 @GetMapping("/category/delete/")
+	public ModelAndView deleteCategory(@RequestParam String id) {
+		System.out.println("Delete category operation starts");
 		// navigate to home page
-		ModelAndView mv = new ModelAndView("home");
+		ModelAndView mv = new ModelAndView("redirect:/managecategories");
 
 		// based on id, fetch the details from categoryDAO
 		if (categoryDAO.delete(id) == true) {
@@ -104,14 +116,24 @@ public class CategoryController {
 			mv.addObject("errorMessage", "Could not delete the category.");
 
 		}
-
-		return mv;
-
+		System.out.println("Category Id has been deleted successfully");
+		return mv;	
 	}
+	 @GetMapping("/category/edit")
+	 public ModelAndView editCategory(@RequestParam String id)
+	 {
+		 ModelAndView mv=new ModelAndView("redirect:/managecategories");
+		 category=categoryDAO.get(id);
+		 //mv.addObject("selectedCategory",category);
+		 httpSession.setAttribute("selectedCategory", category);
+		 return mv;
+		 
+	 }
+	 
 
 	@GetMapping("/categories")
-	public ModelAndView getAllCategories() {
-		ModelAndView mv = new ModelAndView("home");
+	public ModelAndView getAllCategories(@RequestBody Category category) {
+		ModelAndView mv = new ModelAndView("redirect:/managecategories");
 	List<Category> categories = categoryDAO.list();
 		mv.addObject("categories", categories);
 		return mv;
